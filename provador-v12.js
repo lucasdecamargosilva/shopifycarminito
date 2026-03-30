@@ -68,10 +68,6 @@
             50% { transform: rotate(0deg); }
             100% { transform: rotate(0deg); }
         }
-        .q-stamp-anchor {
-            position: relative; z-index: 100; width: 100%; height: 0; overflow: visible;
-            pointer-events: none;
-        }
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;
             background: transparent !important; border: none; padding: 0; cursor: pointer;
@@ -315,22 +311,18 @@
         openBtn.setAttribute('aria-label', 'Abrir Provador Virtual');
         openBtn.insertAdjacentHTML('afterbegin', stampImageHTML);
 
-        // Ancora flutuante: irmao da galeria, nunca filho — nao e destruido ao trocar variante
-        const anchor = document.createElement('div');
-        anchor.className = 'q-stamp-anchor';
-        anchor.appendChild(openBtn);
-
-        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
-        let galleryEl = null;
+        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
+        let placed = false;
         for (const sel of imgContainers) {
-            galleryEl = document.querySelector(sel);
-            if (galleryEl) break;
+            const el = document.querySelector(sel);
+            if (el) {
+                if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
+                el.appendChild(openBtn);
+                placed = true; break;
+            }
         }
-        if (galleryEl && galleryEl.parentElement) {
-            galleryEl.parentElement.insertBefore(anchor, galleryEl);
-        } else {
-            // Fallback: fixo no body
-            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;z-index:100;width:70px;height:70px;';
+        if (!placed) {
+            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:70px;height:70px;';
             document.body.appendChild(openBtn);
         }
 

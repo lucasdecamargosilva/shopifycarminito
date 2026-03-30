@@ -220,7 +220,7 @@
                             <label style="margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; font-weight:400; font-size:12px; text-align:center; width:100%;">Selecione a foto da peca:</label>
                             <div id="q-product-images-container" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"></div>
                         </div>
-                        <p style="margin:10px 0 10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);text-align:center;">Sua foto deve seguir estes requisitos:</p>
+                        <p style="margin:30px 0 10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);text-align:center;">Sua foto deve seguir estes requisitos:</p>
                         <div class="q-tips-grid" style="margin-top:0;">
                             <div class="q-tip-item"><i class="ph ph-t-shirt"></i><span>Com Roupa</span></div>
                             <div class="q-tip-item"><i class="ph ph-person"></i><span>Corpo Inteiro</span></div>

@@ -457,8 +457,17 @@
             }
 
             // Usa a SEGUNDA imagem do produto (index 1), fallback para a primeira
-            const prodImgs = document.querySelectorAll('.product__media img,img.product-featured-media,.product-single__photo');
-            const prodImgTag = prodImgs.length > 1 ? prodImgs[1] : prodImgs[0] || null;
+            // Busca ampla de todas as imagens do produto na pagina
+            const allProdImgs = document.querySelectorAll(
+                '.product__media img, .product__media-item img, .product-gallery img, ' +
+                '.product-single__photo, .product-featured-media, .product__photo img, ' +
+                '[data-media-id] img, .product-images img, .product__image, ' +
+                '.product-media img, .product__media-wrapper img'
+            );
+            // Filtra imagens que sao do produto (ignora icones pequenos)
+            const validImgs = [...allProdImgs].filter(img => img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify'));
+            console.log('[Provador Carminito] Imagens encontradas:', validImgs.length, validImgs.map(i => i.src.substring(0, 80)));
+            const prodImgTag = validImgs.length > 1 ? validImgs[1] : validImgs[0] || null;
             const prodImg = prodImgTag ? prodImgTag.src : (document.querySelector('meta[property="og:image"]')?.content || '');
             const prodName = document.querySelector('h1.product__title,.product-single__title,h1')?.innerText || document.title;
 

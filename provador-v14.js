@@ -102,6 +102,17 @@
         .q-powered-footer { background: var(--q-bg); padding: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; border-top: 1px solid var(--q-gray); }
         .q-quantic-logo { height: 24px; filter: brightness(0); }
         .q-status-msg { display:none; font-size: 9px; letter-spacing: 1px; color: #ef4444; margin-top: 8px; font-weight: 600; text-align: left; text-transform: uppercase; }
+
+        /* SELETOR DE IMAGEM DO PRODUTO */
+        .q-product-picker-label { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--q-text); margin-bottom: 10px; text-align: center; }
+        .q-product-picker { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .q-product-thumb {
+            width: 64px; height: 64px; border: 1px solid var(--q-gray); cursor: pointer;
+            overflow: hidden; transition: 0.2s; opacity: 0.5; flex-shrink: 0;
+        }
+        .q-product-thumb:hover { opacity: 0.8; }
+        .q-product-thumb.selected { border: 2px solid var(--q-primary); opacity: 1; }
+        .q-product-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .q-content-scroll::-webkit-scrollbar { width: 4px; }
         .q-content-scroll::-webkit-scrollbar-thumb { background: #e5e5e5; }
 
@@ -207,6 +218,8 @@
                         </div>
                     </div>
                     <div id="q-step-upload">
+                        <p class="q-product-picker-label">Selecione a foto do produto</p>
+                        <div class="q-product-picker" id="q-product-picker"></div>
                         <div class="q-lead-form">
                             <div class="q-group">
                                 <label>Seu Celular</label>
@@ -370,8 +383,46 @@
         const phoneInput = document.getElementById('q-phone');
 
         let userPhoto = null;
+        let selectedProductImg = '';
 
-        function openModal() { modal.style.display = 'flex'; lockBodyScroll(); }
+        function populateProductPicker() {
+            const picker = document.getElementById('q-product-picker');
+            picker.textContent = '';
+            const allImgs = document.querySelectorAll(
+                '.product__media img, .product__media-item img, .product-gallery img, ' +
+                '.product-single__photo, .product-featured-media, .product__photo img, ' +
+                '[data-media-id] img, .product-images img, .product__image, ' +
+                '.product-media img, .product__media-wrapper img'
+            );
+            const seen = new Set();
+            const validImgs = [...allImgs].filter(img => {
+                const src = img.src.split('?')[0];
+                if (seen.has(src)) return false;
+                seen.add(src);
+                return img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify');
+            });
+            if (validImgs.length === 0) {
+                picker.style.display = 'none';
+                document.querySelector('.q-product-picker-label').style.display = 'none';
+                return;
+            }
+            validImgs.forEach((img, i) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'q-product-thumb' + (i === 0 ? ' selected' : '');
+                const thumbImg = document.createElement('img');
+                thumbImg.src = img.src;
+                thumb.appendChild(thumbImg);
+                thumb.addEventListener('click', () => {
+                    picker.querySelectorAll('.q-product-thumb').forEach(t => t.classList.remove('selected'));
+                    thumb.classList.add('selected');
+                    selectedProductImg = img.src;
+                });
+                picker.appendChild(thumb);
+            });
+            selectedProductImg = validImgs[0].src;
+        }
+
+        function openModal() { populateProductPicker(); modal.style.display = 'flex'; lockBodyScroll(); }
         function closeModal() { modal.style.display = 'none'; unlockBodyScroll(); }
 
         // Bloqueia mousedown/pointerdown para impedir lightbox da Shopify
@@ -457,18 +508,8 @@
                 return;
             }
 
-            // Usa a SEGUNDA imagem do produto (index 1), fallback para a primeira
-            // Busca ampla de todas as imagens do produto na pagina
-            const allProdImgs = document.querySelectorAll(
-                '.product__media img, .product__media-item img, .product-gallery img, ' +
-                '.product-single__photo, .product-featured-media, .product__photo img, ' +
-                '[data-media-id] img, .product-images img, .product__image, ' +
-                '.product-media img, .product__media-wrapper img'
-            );
-            // Filtra imagens que sao do produto (ignora icones pequenos)
-            const validImgs = [...allProdImgs].filter(img => img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify'));
-            const prodImgTag = validImgs.length > 1 ? validImgs[1] : validImgs[0] || null;
-            const prodImg = prodImgTag ? prodImgTag.src : (document.querySelector('meta[property="og:image"]')?.content || '');
+            // Usa a imagem selecionada pelo cliente no picker
+            const prodImg = selectedProductImg || (document.querySelector('meta[property="og:image"]')?.content || '');
             const prodName = document.querySelector('h1.product__title,.product-single__title,h1')?.innerText || document.title;
 
             try {

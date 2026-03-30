@@ -52,14 +52,12 @@
         }
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;
-            background: none; border: none; padding: 0; cursor: pointer;
+            background: transparent !important; border: none; padding: 0; cursor: pointer;
             width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
-            transition: transform 0.2s ease, filter 0.2s ease;
+            transition: transform 0.2s ease;
             animation: q-shake 3s infinite;
         }
         .q-btn-trigger-ia:hover {
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.28));
             animation-play-state: paused; transform: scale(1.1) !important;
         }
 

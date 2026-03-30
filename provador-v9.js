@@ -310,10 +310,34 @@
         openBtn.setAttribute('aria-label', 'Abrir Provador Virtual');
         openBtn.insertAdjacentHTML('afterbegin', stampImageHTML);
 
-        // Posiciona o selo FORA da galeria (nao e destruido ao trocar variante)
-        // Usa position:fixed no canto inferior direito — sempre visivel
-        openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;z-index:100;width:70px;height:70px;';
-        document.body.appendChild(openBtn);
+        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
+
+        function placeStampBtn() {
+            // Remove de onde estiver antes de reinjetar
+            if (openBtn.parentElement) openBtn.parentElement.removeChild(openBtn);
+            for (const sel of imgContainers) {
+                const el = document.querySelector(sel);
+                if (el) {
+                    if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
+                    el.appendChild(openBtn);
+                    return;
+                }
+            }
+            // Fallback fixo
+            openBtn.style.cssText += 'position:fixed;bottom:30px;right:20px;';
+            document.body.appendChild(openBtn);
+        }
+
+        placeStampBtn();
+
+        // Polling robusto: a cada 500ms verifica se o selo ainda esta visivel dentro de um container de imagem
+        setInterval(() => {
+            const isInGallery = imgContainers.some(sel => {
+                const el = document.querySelector(sel);
+                return el && el.contains(openBtn);
+            });
+            if (!isInGallery) placeStampBtn();
+        }, 500);
 
         // ── Botao inline acima do botao de compra ──
         const inlineWrapper = document.createElement('div');

@@ -209,16 +209,16 @@
                         </div>
                     </div>
                     <div id="q-step-upload">
-                        <div id="q-photo-selector-group" style="display:none; flex-direction:column; align-items:center; margin-bottom:10px;">
-                            <label style="margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; font-weight:400; font-size:12px; text-align:center; width:100%;">Selecione a foto da peca:</label>
-                            <div id="q-product-images-container" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"></div>
-                        </div>
                         <div class="q-lead-form">
                             <div class="q-group">
                                 <label>Seu Celular</label>
                                 <input type="tel" id="q-phone" class="q-input" placeholder="(11) 99999-9999" maxlength="15">
                                 <div id="q-phone-error" class="q-status-msg">Insira um numero valido</div>
                             </div>
+                        </div>
+                        <div id="q-photo-selector-group" style="display:none; flex-direction:column; align-items:center; margin:20px 0 10px;">
+                            <label style="margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; font-weight:400; font-size:12px; text-align:center; width:100%;">Selecione a foto da peca:</label>
+                            <div id="q-product-images-container" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"></div>
                         </div>
                         <p style="margin:10px 0 10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);text-align:center;">Sua foto deve seguir estes requisitos:</p>
                         <div class="q-tips-grid" style="margin-top:0;">

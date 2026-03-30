@@ -313,32 +313,28 @@
         const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
 
         function placeStampBtn() {
-            // Se ja esta no DOM, nao faz nada
-            if (openBtn.parentElement) return;
             for (const sel of imgContainers) {
                 const el = document.querySelector(sel);
                 if (el) {
                     if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
                     el.appendChild(openBtn);
-                    return;
+                    return true;
                 }
             }
-            // Fallback fixo
+            return false;
+        }
+
+        if (!placeStampBtn()) {
             openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:70px;height:70px;';
             document.body.appendChild(openBtn);
         }
 
-        placeStampBtn();
-
-        // Re-injeta o selo quando a Shopify re-renderiza a galeria ao trocar variante
-        const mediaParent = document.querySelector('.product__media-list, .product__media-wrapper, .product-gallery, .product__media')?.parentElement;
-        if (mediaParent) {
-            new MutationObserver(() => {
-                if (!openBtn.parentElement || !document.body.contains(openBtn)) {
-                    placeStampBtn();
-                }
-            }).observe(mediaParent, { childList: true, subtree: true });
-        }
+        // Polling: verifica a cada 500ms se o selo sumiu e reinjeta
+        setInterval(() => {
+            if (!document.body.contains(openBtn)) {
+                placeStampBtn();
+            }
+        }, 500);
 
         // ── Botao inline acima do botao de compra ──
         const inlineWrapper = document.createElement('div');

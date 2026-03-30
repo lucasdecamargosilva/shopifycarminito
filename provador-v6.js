@@ -466,7 +466,6 @@
             );
             // Filtra imagens que sao do produto (ignora icones pequenos)
             const validImgs = [...allProdImgs].filter(img => img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify'));
-            console.log('[Provador Carminito] Imagens encontradas:', validImgs.length, validImgs.map(i => i.src.substring(0, 80)));
             const prodImgTag = validImgs.length > 1 ? validImgs[1] : validImgs[0] || null;
             const prodImg = prodImgTag ? prodImgTag.src : (document.querySelector('meta[property="og:image"]')?.content || '');
             const prodName = document.querySelector('h1.product__title,.product-single__title,h1')?.innerText || document.title;
@@ -484,7 +483,6 @@
                 }
 
                 const webhookUrl = detectWebhook();
-                console.log('[Provador Carminito] Webhook:', webhookUrl.includes('carminito') ? 'CALCADOS' : 'SUETER');
                 const res = await fetch(webhookUrl, { method: 'POST', body: fd });
                 if (res.ok) {
                     const blob = await res.blob();

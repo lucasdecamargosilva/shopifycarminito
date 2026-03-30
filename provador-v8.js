@@ -310,31 +310,10 @@
         openBtn.setAttribute('aria-label', 'Abrir Provador Virtual');
         openBtn.insertAdjacentHTML('afterbegin', stampImageHTML);
 
-        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
-
-        function placeStampBtn() {
-            for (const sel of imgContainers) {
-                const el = document.querySelector(sel);
-                if (el) {
-                    if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
-                    el.appendChild(openBtn);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        if (!placeStampBtn()) {
-            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:70px;height:70px;';
-            document.body.appendChild(openBtn);
-        }
-
-        // Polling: verifica a cada 500ms se o selo sumiu e reinjeta
-        setInterval(() => {
-            if (!document.body.contains(openBtn)) {
-                placeStampBtn();
-            }
-        }, 500);
+        // Posiciona o selo FORA da galeria (nao e destruido ao trocar variante)
+        // Usa position:fixed no canto inferior direito — sempre visivel
+        openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;z-index:100;width:70px;height:70px;';
+        document.body.appendChild(openBtn);
 
         // ── Botao inline acima do botao de compra ──
         const inlineWrapper = document.createElement('div');

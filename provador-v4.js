@@ -245,11 +245,13 @@
                         <div id="q-result-actions-col" style="width:100%;">
                             <span class="q-res-title" style="display:none;">Provador Virtual</span>
                             <span class="q-res-subtitle" style="display:none;">Visualize como a peca fica em voce</span>
+                            <!-- BOTAO CARRINHO DESATIVADO TEMPORARIAMENTE
                             <button class="q-btn-buy" id="q-add-to-cart-btn">
                                 <i class="ph ph-shopping-cart"></i>
                                 Adicionar ao Carrinho
                             </button>
-                            <button class="q-btn-outline" id="q-btn-back">Voltar ao Produto</button>
+                            -->
+                            <button class="q-btn-buy" id="q-btn-back">Voltar ao Produto</button>
                             <p class="q-res-mobile-only" style="margin-top:30px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);cursor:pointer;text-decoration:underline;text-underline-offset:4px;" id="q-retry-btn">Tentar outra foto</p>
                         </div>
                     </div>
@@ -472,6 +474,7 @@
         };
 
 
+        /* LOGICA ADD-TO-CART DESATIVADA TEMPORARIAMENTE — VOLTAREMOS EM BREVE
         document.getElementById('q-add-to-cart-btn').onclick = () => {
             function tryAddToCart() {
                 const addBtnSelectors = [
@@ -493,6 +496,7 @@
             if (!ok) setTimeout(() => tryAddToCart(), 400);
             closeModal();
         };
+        */
     }
 
 

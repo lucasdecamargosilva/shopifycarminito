@@ -69,7 +69,7 @@
             100% { transform: rotate(0deg); }
         }
         .q-btn-trigger-ia {
-            position: absolute; top: 15px; right: 15px; z-index: 100;
+            position: fixed; top: auto; bottom: 100px; right: 15px; z-index: 9999;
             background: transparent !important; border: none; padding: 0; cursor: pointer;
             width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
             transition: transform 0.2s ease;
@@ -316,20 +316,8 @@
         openBtn.setAttribute('aria-label', 'Abrir Provador Virtual');
         openBtn.insertAdjacentHTML('afterbegin', stampImageHTML);
 
-        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
-        let placed = false;
-        for (const sel of imgContainers) {
-            const el = document.querySelector(sel);
-            if (el) {
-                if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
-                el.appendChild(openBtn);
-                placed = true; break;
-            }
-        }
-        if (!placed) {
-            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:70px;height:70px;';
-            document.body.appendChild(openBtn);
-        }
+        // Selo fixo no body — nunca some ao scrollar ou trocar variante
+        document.body.appendChild(openBtn);
 
         // ── Botao inline acima do botao de compra ──
         const inlineWrapper = document.createElement('div');

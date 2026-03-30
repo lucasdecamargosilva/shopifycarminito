@@ -82,25 +82,25 @@
 
         #q-modal-ia { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 999999; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; }
         .q-card-ia { background: var(--q-bg); width: 100%; max-width: 480px; padding: 0; position: relative; color: var(--q-text); border: 1px solid var(--q-border); max-height: 94vh; display: flex; flex-direction: column; overflow: hidden; }
-        .q-content-scroll { padding: 40px 30px; overflow-y: auto; flex: 1; text-align: center; }
-        .q-close-ia { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--q-text); cursor: pointer; font-size: 24px; z-index: 100; font-weight: 300; }
-        .q-tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px 0; margin: 20px 0; border-top: 1px solid var(--q-gray); border-bottom: 1px solid var(--q-gray); }
-        .q-tip-item { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--q-text-light); }
-        .q-tip-item i { color: var(--q-primary); font-size: 20px; }
-        .q-lead-form { margin: 30px 0 20px; display: flex; flex-direction: column; gap: 20px; text-align: left; }
+        .q-content-scroll { padding: 25px 20px; overflow-y: auto; flex: 1; text-align: center; }
+        .q-close-ia { position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--q-text); cursor: pointer; font-size: 22px; z-index: 100; font-weight: 300; }
+        .q-tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 0; margin: 12px 0; border-top: 1px solid var(--q-gray); border-bottom: 1px solid var(--q-gray); }
+        .q-tip-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--q-text-light); }
+        .q-tip-item i { color: var(--q-primary); font-size: 18px; }
+        .q-lead-form { margin: 15px 0 10px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
         .q-group { flex: 1; }
-        .q-group label { display: block; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; color: var(--q-text); margin-bottom: 8px; text-transform: uppercase; }
-        .q-input { width: 100%; padding: 22px 18px; border: 1px solid var(--q-border); font-size: 16px !important; font-family: 'Inter', sans-serif; background: transparent; color: var(--q-text); outline: none; box-sizing: border-box; -webkit-text-size-adjust: 100%; }
-        .q-input:focus { border-width: 2px; padding: 14px; font-size: 16px !important; }
-        .q-btn-black { background: var(--q-primary); color: var(--q-bg); border: 1px solid var(--q-primary); width: 100%; padding: 18px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .q-group label { display: block; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; color: var(--q-text); margin-bottom: 6px; text-transform: uppercase; }
+        .q-input { width: 100%; padding: 14px 14px; border: 1px solid var(--q-border); font-size: 16px !important; font-family: 'Inter', sans-serif; background: transparent; color: var(--q-text); outline: none; box-sizing: border-box; -webkit-text-size-adjust: 100%; }
+        .q-input:focus { border-width: 2px; padding: 13px; font-size: 16px !important; }
+        .q-btn-black { background: var(--q-primary); color: var(--q-bg); border: 1px solid var(--q-primary); width: 100%; padding: 14px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 12px; transition: 0.3s; }
         .q-btn-black:disabled { background: var(--q-gray); color: #999; border-color: var(--q-gray); cursor: not-allowed; }
         .q-btn-black:not(:disabled):hover { background: var(--q-bg); color: var(--q-primary); }
-        .q-btn-buy { background: var(--q-primary); color: var(--q-bg); border: 1px solid var(--q-primary); width: 100%; padding: 20px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-bottom: 15px; transition: 0.3s; }
+        .q-btn-buy { background: var(--q-primary); color: var(--q-bg); border: 1px solid var(--q-primary); width: 100%; padding: 16px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-bottom: 10px; transition: 0.3s; }
         .q-btn-buy:hover { background: var(--q-bg); color: var(--q-primary); }
-        .q-btn-outline { background: var(--q-bg); color: var(--q-primary); border: 1px solid var(--q-border); width: 100%; padding: 18px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .q-btn-outline { background: var(--q-bg); color: var(--q-primary); border: 1px solid var(--q-border); width: 100%; padding: 14px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .q-btn-outline:hover { background: var(--q-primary); color: var(--q-bg); }
-        .q-powered-footer { background: var(--q-bg); padding: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; border-top: 1px solid var(--q-gray); }
-        .q-quantic-logo { height: 24px; filter: brightness(0); }
+        .q-powered-footer { background: var(--q-bg); padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; border-top: 1px solid var(--q-gray); }
+        .q-quantic-logo { height: 20px; filter: brightness(0); }
         .q-status-msg { display:none; font-size: 9px; letter-spacing: 1px; color: #ef4444; margin-top: 8px; font-weight: 600; text-align: left; text-transform: uppercase; }
 
         /* SELETOR DE IMAGEM DO PRODUTO (estilo Midas) */
@@ -203,9 +203,9 @@
                 <button type="button" class="q-close-ia" id="q-close-btn">&times;</button>
                 <div class="q-content-scroll">
                     <div id="q-header-provador">
-                        <h1 style="margin:0 0 10px 0;font-size:20px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Provador Virtual</h1>
+                        <h1 style="margin:0 0 6px 0;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Provador Virtual</h1>
                         <div style="margin:0;text-align:center;">
-                            <img src="https://carminito.com/cdn/shop/files/C_A_R_M_I_N_I_T_O_8485d63c-f949-4d30-800d-0b2a7f67e871.png?v=1774712404&width=280" alt="CARMINITO" style="height:32px;width:auto;display:inline-block;">
+                            <img src="https://carminito.com/cdn/shop/files/C_A_R_M_I_N_I_T_O_8485d63c-f949-4d30-800d-0b2a7f67e871.png?v=1774712404&width=280" alt="CARMINITO" style="height:24px;width:auto;display:inline-block;">
                         </div>
                     </div>
                     <div id="q-step-upload">
@@ -220,23 +220,23 @@
                             <label style="margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; font-weight:400; font-size:12px; text-align:center; width:100%;">Selecione a foto da peca:</label>
                             <div id="q-product-images-container" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"></div>
                         </div>
-                        <p style="margin:30px 0 10px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);text-align:center;">Sua foto deve seguir estes requisitos:</p>
+                        <p style="margin:15px 0 5px;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);text-align:center;">Sua foto deve seguir estes requisitos:</p>
                         <div class="q-tips-grid" style="margin-top:0;">
                             <div class="q-tip-item"><i class="ph ph-t-shirt"></i><span>Com Roupa</span></div>
                             <div class="q-tip-item"><i class="ph ph-person"></i><span>Corpo Inteiro</span></div>
                             <div class="q-tip-item"><i class="ph ph-sun"></i><span>Boa Luz</span></div>
                         </div>
-                        <div style="display:flex;gap:20px;justify-content:center;margin-top:30px;">
-                            <div id="q-trigger-upload" style="width:120px;height:160px;border:1px solid var(--q-border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--q-gray);transition:0.3s;">
-                                <i class="ph ph-camera-plus" style="font-size:32px;color:var(--q-primary);margin-bottom:10px;"></i>
+                        <div style="display:flex;gap:15px;justify-content:center;margin-top:15px;">
+                            <div id="q-trigger-upload" style="width:90px;height:120px;border:1px solid var(--q-border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--q-gray);transition:0.3s;">
+                                <i class="ph ph-camera-plus" style="font-size:26px;color:var(--q-primary);margin-bottom:6px;"></i>
                                 <span style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Enviar Foto</span>
                                 <input type="file" id="q-real-input" accept="image/*" style="display:none">
                             </div>
-                            <div id="q-pre-view" style="display:none;width:120px;height:160px;overflow:hidden;border:1px solid var(--q-border);">
+                            <div id="q-pre-view" style="display:none;width:90px;height:120px;overflow:hidden;border:1px solid var(--q-border);">
                                 <img id="q-pre-img" style="width:100%;height:100%;object-fit:cover;">
                             </div>
                         </div>
-                        <label style="display:flex;align-items:flex-start;gap:8px;margin-top:16px;cursor:pointer;font-size:12px;line-height:1.4;color:#64748b;justify-content:center;text-align:center;">
+                        <label style="display:flex;align-items:flex-start;gap:8px;margin-top:10px;cursor:pointer;font-size:11px;line-height:1.4;color:#64748b;justify-content:center;text-align:center;">
                             <input type="checkbox" id="q-accept-terms" style="margin-top:2px;cursor:pointer;accent-color:#000;">
                             Ao continuar, concordo com os <a href="http://provoulevou.com.br/termos.html" target="_blank" style="color:#000;text-decoration:underline;">Termos e Condicoes</a>
                         </label>

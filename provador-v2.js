@@ -355,7 +355,7 @@
         function openModal() { modal.style.display = 'flex'; lockBodyScroll(); }
         function closeModal() { modal.style.display = 'none'; unlockBodyScroll(); }
 
-        openBtn.onclick = () => openModal();
+        openBtn.onclick = (e) => { e.stopPropagation(); e.preventDefault(); openModal(); };
         inlineBtn.onclick = () => openModal();
         closeBtn.onclick = () => closeModal();
         backBtn.onclick = () => closeModal();

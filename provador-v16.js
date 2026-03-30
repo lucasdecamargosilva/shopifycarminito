@@ -103,16 +103,7 @@
         .q-quantic-logo { height: 24px; filter: brightness(0); }
         .q-status-msg { display:none; font-size: 9px; letter-spacing: 1px; color: #ef4444; margin-top: 8px; font-weight: 600; text-align: left; text-transform: uppercase; }
 
-        /* SELETOR DE IMAGEM DO PRODUTO */
-        .q-product-picker-label { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--q-text); margin-bottom: 10px; text-align: center; }
-        .q-product-picker { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-        .q-product-thumb {
-            width: 64px; height: 64px; border: 1px solid var(--q-gray); cursor: pointer;
-            overflow: hidden; transition: 0.2s; opacity: 0.5; flex-shrink: 0;
-        }
-        .q-product-thumb:hover { opacity: 0.8; }
-        .q-product-thumb.selected { border: 2px solid var(--q-primary); opacity: 1; }
-        .q-product-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        /* SELETOR DE IMAGEM DO PRODUTO (estilo Midas) */
         .q-content-scroll::-webkit-scrollbar { width: 4px; }
         .q-content-scroll::-webkit-scrollbar-thumb { background: #e5e5e5; }
 
@@ -218,8 +209,10 @@
                         </div>
                     </div>
                     <div id="q-step-upload">
-                        <p class="q-product-picker-label">Selecione a foto do produto</p>
-                        <div class="q-product-picker" id="q-product-picker"></div>
+                        <div id="q-photo-selector-group" style="display:none; flex-direction:column; align-items:center; margin-bottom:10px;">
+                            <label style="margin-bottom:15px; text-transform:uppercase; letter-spacing:1px; font-weight:400; font-size:12px; text-align:center; width:100%;">Selecione a foto da peca:</label>
+                            <div id="q-product-images-container" style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"></div>
+                        </div>
                         <div class="q-lead-form">
                             <div class="q-group">
                                 <label>Seu Celular</label>
@@ -385,50 +378,70 @@
         let userPhoto = null;
         let selectedProductImg = '';
 
+        function extractProductImages() {
+            const invalidKeywords = ['provador', 'logo', 'provoulevou', 'icon', 'play', 'video'];
+            const allImgs = document.querySelectorAll(
+                '.product__media img, .product__media-item img, .product-gallery img, ' +
+                '.product-single__photo, .product-featured-media, .product__photo img, ' +
+                '[data-media-id] img, .product-images img, .product__image, ' +
+                '.product-media img, .product__media-wrapper img'
+            );
+            const seen = new Set();
+            const urls = [];
+            allImgs.forEach(img => {
+                let src = img.dataset?.src || img.src || '';
+                if (!src || src.includes('data:image')) return;
+                if (invalidKeywords.some(kw => src.toLowerCase().includes(kw))) return;
+                const clean = src.split('?')[0];
+                if (seen.has(clean)) return;
+                seen.add(clean);
+                if (img.naturalWidth > 100 || img.width > 100 || src.includes('cdn.shopify')) {
+                    urls.push(src);
+                }
+            });
+            if (urls.length === 0) {
+                const og = document.querySelector('meta[property="og:image"]')?.content;
+                if (og) urls.push(og);
+            }
+            // Mostra apenas a 1a, 2a, 4a, 5a e 6a foto (indices 0,1,3,4,5)
+            const allowedIndices = [0, 1, 3, 4, 5];
+            return allowedIndices.filter(i => i < urls.length).map(i => urls[i]);
+        }
+
         function populateProductPicker() {
             try {
-                const picker = document.getElementById('q-product-picker');
-                if (!picker) return;
-                picker.textContent = '';
-                const allImgs = document.querySelectorAll(
-                    '.product__media img, .product__media-item img, .product-gallery img, ' +
-                    '.product-single__photo, .product-featured-media, .product__photo img, ' +
-                    '[data-media-id] img, .product-images img, .product__image, ' +
-                    '.product-media img, .product__media-wrapper img'
-                );
-                const seen = new Set();
-                const validImgs = [...allImgs].filter(img => {
-                    const src = img.src.split('?')[0];
-                    if (seen.has(src)) return false;
-                    seen.add(src);
-                    return img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify');
-                });
-                // Mostra apenas a 1a, 2a, 4a, 5a e 6a foto (indices 0,1,3,4,5 — pula a 3a)
-                const allowedIndices = [0, 1, 3, 4, 5];
-                const filteredImgs = allowedIndices.filter(i => i < validImgs.length).map(i => validImgs[i]);
+                const imgs = extractProductImages();
+                const container = document.getElementById('q-product-images-container');
+                const group = document.getElementById('q-photo-selector-group');
+                if (!container || !group) return;
+                container.textContent = '';
 
-                const label = document.querySelector('.q-product-picker-label');
-                if (filteredImgs.length === 0) {
-                    picker.style.display = 'none';
-                    if (label) label.style.display = 'none';
+                if (imgs.length < 2) {
+                    group.style.display = 'none';
+                    selectedProductImg = imgs[0] || '';
                     return;
                 }
-                picker.style.display = 'flex';
-                if (label) label.style.display = 'block';
-                let first = true;
-                filteredImgs.forEach((img) => {
-                    const thumb = document.createElement('div');
-                    thumb.className = 'q-product-thumb' + (first ? ' selected' : '');
-                    const thumbImg = document.createElement('img');
-                    thumbImg.src = img.src;
-                    thumb.appendChild(thumbImg);
-                    thumb.addEventListener('click', () => {
-                        picker.querySelectorAll('.q-product-thumb').forEach(t => t.classList.remove('selected'));
-                        thumb.classList.add('selected');
-                        selectedProductImg = img.src;
+
+                group.style.display = 'flex';
+                selectedProductImg = imgs[0];
+
+                imgs.forEach((url, i) => {
+                    const box = document.createElement('div');
+                    box.style.cssText = 'width:70px; height:90px; border: 2px solid ' + (i === 0 ? 'var(--q-primary)' : 'var(--q-gray)') + '; border-radius:4px; overflow:hidden; cursor:pointer; opacity: ' + (i === 0 ? '1' : '0.5') + '; transition: 0.3s;';
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.style.cssText = 'width:100%; height:100%; object-fit:cover;';
+                    box.appendChild(img);
+                    box.addEventListener('click', () => {
+                        selectedProductImg = url;
+                        [...container.children].forEach(child => {
+                            child.style.borderColor = 'var(--q-gray)';
+                            child.style.opacity = '0.5';
+                        });
+                        box.style.borderColor = 'var(--q-primary)';
+                        box.style.opacity = '1';
                     });
-                    picker.appendChild(thumb);
-                    if (first) { selectedProductImg = img.src; first = false; }
+                    container.appendChild(box);
                 });
             } catch(_) {}
         }

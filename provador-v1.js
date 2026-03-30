@@ -89,6 +89,9 @@
         .q-content-scroll::-webkit-scrollbar-thumb { background: #e5e5e5; }
 
         /* BOTAO INLINE ACIMA DO CARRINHO */
+        .q-inline-wrapper {
+            position: relative !important; width: 100% !important; margin-bottom: 10px !important;
+        }
         .q-btn-inline-provador {
             display: flex !important; align-items: center !important; justify-content: center !important;
             gap: 10px !important; width: 100% !important; padding: 16px 20px !important;
@@ -98,12 +101,19 @@
             font-weight: 600 !important; text-transform: uppercase !important;
             letter-spacing: 2px !important; cursor: pointer !important;
             transition: all 0.3s ease !important; text-decoration: none !important;
-            margin-bottom: 10px !important; box-sizing: border-box !important;
+            box-sizing: border-box !important;
         }
         .q-btn-inline-provador:hover {
             background: var(--q-primary) !important; color: var(--q-bg) !important;
         }
-        .q-btn-inline-provador img { width: 20px; height: 20px; object-fit: contain; }
+        @keyframes q-float-badge { 0%, 100% { transform: translateY(0) rotate(2deg); } 50% { transform: translateY(-5px) rotate(-1deg); } }
+        .q-badge-novidade {
+            position: absolute; top: -14px; right: 10px; background: #000; color: #fff;
+            padding: 4px 12px; border-radius: 20px; font-size: 9px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; z-index: 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-family: 'Inter', sans-serif;
+            animation: q-float-badge 3s ease-in-out infinite;
+        }
         @keyframes q-slide { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
         @keyframes q-pulse-text { 0%, 100% { opacity: 0.4; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
 
@@ -298,10 +308,10 @@
         }
 
         // ── Botao inline acima do botao de compra ──
-        const inlineBtn = document.createElement('button');
-        inlineBtn.type = 'button';
-        inlineBtn.className = 'q-btn-inline-provador';
-        inlineBtn.insertAdjacentHTML('afterbegin', '<img src="https://cdn.shopify.com/s/files/1/0636/6334/1746/files/logo_provador.png?v=1772494793" alt=""> PROVADOR VIRTUAL');
+        const inlineWrapper = document.createElement('div');
+        inlineWrapper.className = 'q-inline-wrapper';
+        inlineWrapper.insertAdjacentHTML('afterbegin', '<div class="q-badge-novidade">Novidade!</div><button type="button" class="q-btn-inline-provador">PROVADOR VIRTUAL</button>');
+        const inlineBtn = inlineWrapper.querySelector('.q-btn-inline-provador');
 
         const buyBtnSelectors = [
             'button[name="add"]', 'button.product-form__submit',
@@ -316,7 +326,7 @@
             const buyEl = document.querySelector(sel);
             if (buyEl) {
                 const target = buyEl.closest('.product-form__buttons') || buyEl.parentElement;
-                target.insertBefore(inlineBtn, target.firstChild);
+                target.insertBefore(inlineWrapper, target.firstChild);
                 inlinePlaced = true;
                 break;
             }
@@ -324,7 +334,7 @@
         if (!inlinePlaced) {
             // Fallback: coloca antes do primeiro form submit encontrado
             const anySubmit = document.querySelector('form button[type="submit"]');
-            if (anySubmit) anySubmit.parentElement.insertBefore(inlineBtn, anySubmit);
+            if (anySubmit) anySubmit.parentElement.insertBefore(inlineWrapper, anySubmit);
         }
 
         const modal = document.getElementById('q-modal-ia');

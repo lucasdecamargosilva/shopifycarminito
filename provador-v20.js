@@ -83,7 +83,7 @@
         #q-modal-ia { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 999999; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; }
         .q-card-ia { background: var(--q-bg); width: 100%; max-width: 480px; padding: 0; position: relative; color: var(--q-text); border: 1px solid var(--q-border); max-height: 94vh; display: flex; flex-direction: column; overflow: hidden; }
         .q-content-scroll { padding: 25px 20px; overflow-y: auto; flex: 1; text-align: center; }
-        .q-close-ia { position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--q-text); cursor: pointer; font-size: 22px; z-index: 100; font-weight: 300; }
+        .q-close-ia { position: absolute; top: 12px; right: 12px; background: none; border: none; color: var(--q-text); cursor: pointer; font-size: 22px; z-index: 300; font-weight: 300; }
         .q-tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 0; margin: 12px 0; border-top: 1px solid var(--q-gray); border-bottom: 1px solid var(--q-gray); }
         .q-tip-item { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--q-text-light); }
         .q-tip-item i { color: var(--q-primary); font-size: 18px; }
@@ -188,8 +188,7 @@
                 font-weight: 600; letter-spacing: 2px !important; text-transform: uppercase !important;
             }
             .q-card-ia.is-result .q-btn-buy { margin-bottom: 12px; }
-            .q-card-ia.is-result .q-res-mobile-only { display: none !important; }
-            .q-card-ia.is-result .q-close-ia { top: 16px; right: 16px; color: var(--q-text); z-index: 10; }
+            .q-card-ia.is-result .q-close-ia { top: 16px; right: 16px; color: var(--q-text); z-index: 300; position: absolute; }
         }
     `;
 
@@ -277,7 +276,7 @@
                             </button>
                             -->
                             <button class="q-btn-buy" id="q-btn-back">Voltar ao Produto</button>
-                            <p class="q-res-mobile-only" style="margin-top:30px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);cursor:pointer;text-decoration:underline;text-underline-offset:4px;" id="q-retry-btn">Tentar outra foto</p>
+                            <p style="margin-top:20px;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);cursor:pointer;text-decoration:underline;text-underline-offset:4px;" id="q-retry-btn">Tentar outra foto</p>
                         </div>
                     </div>
                 </div>

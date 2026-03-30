@@ -69,8 +69,8 @@
             100% { transform: rotate(0deg); }
         }
         .q-stamp-anchor {
-            position: relative; z-index: 100; width: 0; height: 0; overflow: visible;
-            margin-left: auto; pointer-events: none;
+            position: relative; z-index: 100; width: 100%; height: 0; overflow: visible;
+            pointer-events: none;
         }
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;

@@ -53,7 +53,7 @@
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;
             background: none; border: none; padding: 0; cursor: pointer;
-            width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+            width: 90px; height: 90px; display: flex; align-items: center; justify-content: center;
             filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
             transition: transform 0.2s ease, filter 0.2s ease;
             animation: q-shake 3s infinite;
@@ -87,6 +87,23 @@
         .q-status-msg { display:none; font-size: 9px; letter-spacing: 1px; color: #ef4444; margin-top: 8px; font-weight: 600; text-align: left; text-transform: uppercase; }
         .q-content-scroll::-webkit-scrollbar { width: 4px; }
         .q-content-scroll::-webkit-scrollbar-thumb { background: #e5e5e5; }
+
+        /* BOTAO INLINE ACIMA DO CARRINHO */
+        .q-btn-inline-provador {
+            display: flex !important; align-items: center !important; justify-content: center !important;
+            gap: 10px !important; width: 100% !important; padding: 16px 20px !important;
+            background: var(--q-bg) !important; color: var(--q-primary) !important;
+            border: 1px solid var(--q-primary) !important;
+            font-family: 'Inter', sans-serif !important; font-size: 11px !important;
+            font-weight: 600 !important; text-transform: uppercase !important;
+            letter-spacing: 2px !important; cursor: pointer !important;
+            transition: all 0.3s ease !important; text-decoration: none !important;
+            margin-bottom: 10px !important; box-sizing: border-box !important;
+        }
+        .q-btn-inline-provador:hover {
+            background: var(--q-primary) !important; color: var(--q-bg) !important;
+        }
+        .q-btn-inline-provador img { width: 20px; height: 20px; object-fit: contain; }
         @keyframes q-slide { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
         @keyframes q-pulse-text { 0%, 100% { opacity: 0.4; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
 
@@ -276,8 +293,38 @@
             }
         }
         if (!placed) {
-            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:60px;height:60px;';
+            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:90px;height:90px;';
             document.body.appendChild(openBtn);
+        }
+
+        // ── Botao inline acima do botao de compra ──
+        const inlineBtn = document.createElement('button');
+        inlineBtn.type = 'button';
+        inlineBtn.className = 'q-btn-inline-provador';
+        inlineBtn.insertAdjacentHTML('afterbegin', '<img src="https://cdn.shopify.com/s/files/1/0636/6334/1746/files/logo_provador.png?v=1772494793" alt=""> PROVADOR VIRTUAL');
+
+        const buyBtnSelectors = [
+            'button[name="add"]', 'button.product-form__submit',
+            '.btn-add-to-cart', '[data-action="add-to-cart"]',
+            'button[data-btn-addtocart]', '.product-form button[type="submit"]',
+            'form[action*="/cart/add"] button[type="submit"]',
+            '#AddToCart', '.add-to-cart', '.shopify-payment-button',
+            '.product-form__buttons', '.product-form__cart-submit',
+        ];
+        let inlinePlaced = false;
+        for (const sel of buyBtnSelectors) {
+            const buyEl = document.querySelector(sel);
+            if (buyEl) {
+                const target = buyEl.closest('.product-form__buttons') || buyEl.parentElement;
+                target.insertBefore(inlineBtn, target.firstChild);
+                inlinePlaced = true;
+                break;
+            }
+        }
+        if (!inlinePlaced) {
+            // Fallback: coloca antes do primeiro form submit encontrado
+            const anySubmit = document.querySelector('form button[type="submit"]');
+            if (anySubmit) anySubmit.parentElement.insertBefore(inlineBtn, anySubmit);
         }
 
         const modal = document.getElementById('q-modal-ia');
@@ -299,6 +346,7 @@
         function closeModal() { modal.style.display = 'none'; unlockBodyScroll(); }
 
         openBtn.onclick = () => openModal();
+        inlineBtn.onclick = () => openModal();
         closeBtn.onclick = () => closeModal();
         backBtn.onclick = () => closeModal();
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });

@@ -456,7 +456,9 @@
                 return;
             }
 
-            const prodImgTag = document.querySelector('.product__media img,img.product-featured-media,.product-single__photo');
+            // Usa a SEGUNDA imagem do produto (index 1), fallback para a primeira
+            const prodImgs = document.querySelectorAll('.product__media img,img.product-featured-media,.product-single__photo');
+            const prodImgTag = prodImgs.length > 1 ? prodImgs[1] : prodImgs[0] || null;
             const prodImg = prodImgTag ? prodImgTag.src : (document.querySelector('meta[property="og:image"]')?.content || '');
             const prodName = document.querySelector('h1.product__title,.product-single__title,h1')?.innerText || document.title;
 

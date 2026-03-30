@@ -386,40 +386,51 @@
         let selectedProductImg = '';
 
         function populateProductPicker() {
-            const picker = document.getElementById('q-product-picker');
-            picker.textContent = '';
-            const allImgs = document.querySelectorAll(
-                '.product__media img, .product__media-item img, .product-gallery img, ' +
-                '.product-single__photo, .product-featured-media, .product__photo img, ' +
-                '[data-media-id] img, .product-images img, .product__image, ' +
-                '.product-media img, .product__media-wrapper img'
-            );
-            const seen = new Set();
-            const validImgs = [...allImgs].filter(img => {
-                const src = img.src.split('?')[0];
-                if (seen.has(src)) return false;
-                seen.add(src);
-                return img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify');
-            });
-            if (validImgs.length === 0) {
-                picker.style.display = 'none';
-                document.querySelector('.q-product-picker-label').style.display = 'none';
-                return;
-            }
-            validImgs.forEach((img, i) => {
-                const thumb = document.createElement('div');
-                thumb.className = 'q-product-thumb' + (i === 0 ? ' selected' : '');
-                const thumbImg = document.createElement('img');
-                thumbImg.src = img.src;
-                thumb.appendChild(thumbImg);
-                thumb.addEventListener('click', () => {
-                    picker.querySelectorAll('.q-product-thumb').forEach(t => t.classList.remove('selected'));
-                    thumb.classList.add('selected');
-                    selectedProductImg = img.src;
+            try {
+                const picker = document.getElementById('q-product-picker');
+                if (!picker) return;
+                picker.textContent = '';
+                const allImgs = document.querySelectorAll(
+                    '.product__media img, .product__media-item img, .product-gallery img, ' +
+                    '.product-single__photo, .product-featured-media, .product__photo img, ' +
+                    '[data-media-id] img, .product-images img, .product__image, ' +
+                    '.product-media img, .product__media-wrapper img'
+                );
+                const seen = new Set();
+                const validImgs = [...allImgs].filter(img => {
+                    const src = img.src.split('?')[0];
+                    if (seen.has(src)) return false;
+                    seen.add(src);
+                    return img.naturalWidth > 100 || img.width > 100 || img.src.includes('cdn.shopify');
                 });
-                picker.appendChild(thumb);
-            });
-            selectedProductImg = validImgs[0].src;
+                // Mostra apenas a 1a, 2a, 4a, 5a e 6a foto (indices 0,1,3,4,5 — pula a 3a)
+                const allowedIndices = [0, 1, 3, 4, 5];
+                const filteredImgs = allowedIndices.filter(i => i < validImgs.length).map(i => validImgs[i]);
+
+                const label = document.querySelector('.q-product-picker-label');
+                if (filteredImgs.length === 0) {
+                    picker.style.display = 'none';
+                    if (label) label.style.display = 'none';
+                    return;
+                }
+                picker.style.display = 'flex';
+                if (label) label.style.display = 'block';
+                let first = true;
+                filteredImgs.forEach((img) => {
+                    const thumb = document.createElement('div');
+                    thumb.className = 'q-product-thumb' + (first ? ' selected' : '');
+                    const thumbImg = document.createElement('img');
+                    thumbImg.src = img.src;
+                    thumb.appendChild(thumbImg);
+                    thumb.addEventListener('click', () => {
+                        picker.querySelectorAll('.q-product-thumb').forEach(t => t.classList.remove('selected'));
+                        thumb.classList.add('selected');
+                        selectedProductImg = img.src;
+                    });
+                    picker.appendChild(thumb);
+                    if (first) { selectedProductImg = img.src; first = false; }
+                });
+            } catch(_) {}
         }
 
         function openModal() { populateProductPicker(); modal.style.display = 'flex'; lockBodyScroll(); }

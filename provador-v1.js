@@ -53,7 +53,7 @@
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;
             background: none; border: none; padding: 0; cursor: pointer;
-            width: 90px; height: 90px; display: flex; align-items: center; justify-content: center;
+            width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
             filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
             transition: transform 0.2s ease, filter 0.2s ease;
             animation: q-shake 3s infinite;
@@ -210,7 +210,7 @@
                         <button class="q-btn-black" id="q-btn-generate" disabled>Ver no meu corpo</button>
                     </div>
 
-                    <div id="q-step-confirm">
+                    <div id="q-step-confirm" style="display:none;pointer-events:none;">
                         <div class="q-confirm-box">
                             <h2 style="margin:0 0 30px 0;font-size:16px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#000;line-height:1.4;">Sua foto segue estes requisitos?</h2>
                             <div class="q-tips-grid" style="margin-bottom:35px;border-top:none;border-bottom:none;padding:0;">
@@ -293,7 +293,7 @@
             }
         }
         if (!placed) {
-            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:90px;height:90px;';
+            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;width:70px;height:70px;';
             document.body.appendChild(openBtn);
         }
 
@@ -394,12 +394,17 @@
         genBtn.onclick = () => {
             if (!userPhoto) return;
             confirmStep.style.display = 'flex';
+            confirmStep.style.pointerEvents = 'auto';
         };
 
-        confirmBtnNo.onclick = () => { confirmStep.style.display = 'none'; };
+        confirmBtnNo.onclick = () => {
+            confirmStep.style.display = 'none';
+            confirmStep.style.pointerEvents = 'none';
+        };
 
         confirmBtnYes.onclick = async () => {
             confirmStep.style.display = 'none';
+            confirmStep.style.pointerEvents = 'none';
             uploadStep.style.display = 'none';
             document.getElementById('q-loading-box').style.display = 'block';
 

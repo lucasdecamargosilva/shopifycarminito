@@ -353,7 +353,20 @@
         function openModal() { modal.style.display = 'flex'; lockBodyScroll(); }
         function closeModal() { modal.style.display = 'none'; unlockBodyScroll(); }
 
-        openBtn.onclick = (e) => { e.stopPropagation(); e.preventDefault(); openModal(); };
+        // Captura em todas as fases para impedir que o lightbox da Shopify abra
+        ['click', 'mousedown', 'mouseup', 'pointerdown', 'pointerup'].forEach(evt => {
+            openBtn.addEventListener(evt, (e) => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                e.preventDefault();
+            }, true);
+        });
+        openBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            openModal();
+        });
         inlineBtn.onclick = () => openModal();
         closeBtn.onclick = () => closeModal();
         backBtn.onclick = () => closeModal();

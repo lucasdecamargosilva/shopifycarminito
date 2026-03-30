@@ -417,11 +417,12 @@
                 }
 
                 group.style.display = 'flex';
-                selectedProductImg = imgs[0];
+                const defaultIdx = imgs.length > 1 ? 1 : 0;
+                selectedProductImg = imgs[defaultIdx];
 
                 imgs.forEach((url, i) => {
                     const box = document.createElement('div');
-                    box.style.cssText = 'width:70px; height:90px; border: 2px solid ' + (i === 0 ? 'var(--q-primary)' : 'var(--q-gray)') + '; border-radius:4px; overflow:hidden; cursor:pointer; opacity: ' + (i === 0 ? '1' : '0.5') + '; transition: 0.3s;';
+                    box.style.cssText = 'width:70px; height:90px; border: 2px solid ' + (i === defaultIdx ? 'var(--q-primary)' : 'var(--q-gray)') + '; border-radius:4px; overflow:hidden; cursor:pointer; opacity: ' + (i === defaultIdx ? '1' : '0.5') + '; transition: 0.3s;';
                     const img = document.createElement('img');
                     img.src = url;
                     img.style.cssText = 'width:100%; height:100%; object-fit:cover;';

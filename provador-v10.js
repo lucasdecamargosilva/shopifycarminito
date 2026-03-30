@@ -68,12 +68,17 @@
             50% { transform: rotate(0deg); }
             100% { transform: rotate(0deg); }
         }
+        .q-stamp-anchor {
+            position: relative; z-index: 100; width: 0; height: 0; overflow: visible;
+            margin-left: auto; pointer-events: none;
+        }
         .q-btn-trigger-ia {
             position: absolute; top: 15px; right: 15px; z-index: 100;
             background: transparent !important; border: none; padding: 0; cursor: pointer;
             width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
             transition: transform 0.2s ease;
             animation: q-shake 3s infinite;
+            pointer-events: auto;
         }
         .q-btn-trigger-ia:hover {
             animation-play-state: paused; transform: scale(1.1) !important;
@@ -310,34 +315,24 @@
         openBtn.setAttribute('aria-label', 'Abrir Provador Virtual');
         openBtn.insertAdjacentHTML('afterbegin', stampImageHTML);
 
-        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '[data-media-id]', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
+        // Ancora flutuante: irmao da galeria, nunca filho — nao e destruido ao trocar variante
+        const anchor = document.createElement('div');
+        anchor.className = 'q-stamp-anchor';
+        anchor.appendChild(openBtn);
 
-        function placeStampBtn() {
-            // Remove de onde estiver antes de reinjetar
-            if (openBtn.parentElement) openBtn.parentElement.removeChild(openBtn);
-            for (const sel of imgContainers) {
-                const el = document.querySelector(sel);
-                if (el) {
-                    if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
-                    el.appendChild(openBtn);
-                    return;
-                }
-            }
-            // Fallback fixo
-            openBtn.style.cssText += 'position:fixed;bottom:30px;right:20px;';
+        const imgContainers = ['.product__media-wrapper', '.product-gallery__media', '.product__media', '.product-image-main', '.product-media-container', '.product__media-item', '.product-gallery', '.product-single__media', '.media-gallery'];
+        let galleryEl = null;
+        for (const sel of imgContainers) {
+            galleryEl = document.querySelector(sel);
+            if (galleryEl) break;
+        }
+        if (galleryEl && galleryEl.parentElement) {
+            galleryEl.parentElement.insertBefore(anchor, galleryEl);
+        } else {
+            // Fallback: fixo no body
+            openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;z-index:100;width:70px;height:70px;';
             document.body.appendChild(openBtn);
         }
-
-        placeStampBtn();
-
-        // Polling robusto: a cada 500ms verifica se o selo ainda esta visivel dentro de um container de imagem
-        setInterval(() => {
-            const isInGallery = imgContainers.some(sel => {
-                const el = document.querySelector(sel);
-                return el && el.contains(openBtn);
-            });
-            if (!isInGallery) placeStampBtn();
-        }, 500);
 
         // ── Botao inline acima do botao de compra ──
         const inlineWrapper = document.createElement('div');

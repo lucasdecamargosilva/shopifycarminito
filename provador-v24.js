@@ -481,7 +481,7 @@
 
         function checkFields() {
             const nums = phoneInput.value.replace(/\D/g, '');
-            const phoneOk = nums.length >= 10 && nums.length <= 11;
+            const phoneOk = (nums.length === 10 || nums.length === 11) && /^[1-9][1-9]/.test(nums) && (nums.length === 10 || nums[2] === '9');
             document.getElementById('q-phone-error').style.display = (phoneInput.value.length > 0 && !phoneOk) ? 'block' : 'none';
             phoneInput.style.borderColor = (phoneInput.value.length > 0 && !phoneOk) ? '#ef4444' : 'var(--q-border)';
             genBtn.disabled = !(userPhoto && phoneOk && document.getElementById('q-accept-terms').checked);
@@ -504,6 +504,9 @@
 
         genBtn.onclick = () => {
             if (!userPhoto) return;
+            const _gNums = (phoneInput.value || '').replace(/\D/g, '');
+            const _gPhoneOk = (_gNums.length === 10 || _gNums.length === 11) && /^[1-9][1-9]/.test(_gNums) && (_gNums.length === 10 || _gNums[2] === '9');
+            if (!_gPhoneOk) { phoneInput.focus(); return; }
             confirmStep.style.display = 'flex';
             confirmStep.style.pointerEvents = 'auto';
         };

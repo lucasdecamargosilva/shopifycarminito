@@ -115,7 +115,7 @@
             display: flex !important; align-items: center !important; justify-content: center !important;
             gap: 10px !important; width: 100% !important; padding: 12px 20px !important;
             background: var(--q-bg) !important; color: var(--q-primary) !important;
-            border: 1px solid var(--q-primary) !important;
+            border: 1px solid var(--q-primary) !important; border-radius: 999px !important;
             font-family: 'Inter', sans-serif !important; font-size: 11px !important;
             font-weight: 600 !important; text-transform: uppercase !important;
             letter-spacing: 2px !important; cursor: pointer !important;

@@ -280,9 +280,9 @@
                         </div>
                     </div>
                 </div>
-                <a href="https://provoulevou.com.br" target="_blank" class="q-powered-footer" style="text-decoration:none;">
+                <a href="https://provoulevou.com.br/?utm_source=widget&utm_medium=parceiro&utm_campaign=carminito" target="_blank" rel="dofollow noopener" class="q-powered-footer" style="text-decoration:none;">
                     <span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--q-text-light);">Powered by</span>
-                    <img src="https://provoulevou.com.br/assets/provoulevou-logo.png" class="q-quantic-logo">
+                    <img src="https://provoulevou.com.br/assets/provoulevou-logo.png" class="q-quantic-logo" alt="Provou Levou - Provador Virtual com IA">
                 </a>
             </div>
         </div>

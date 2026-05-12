@@ -1,4 +1,15 @@
 (function () {
+    function isValidBRPhone(nums) {
+        if (nums.length !== 10 && nums.length !== 11) return false;
+        if (!/^[1-9][1-9]/.test(nums)) return false;
+        if (nums.length === 11 && nums[2] !== '9') return false;
+        var local = nums.length === 11 ? nums.slice(3) : nums.slice(2);
+        if (/^(\d)\1+$/.test(local)) return false;
+        if (/(\d)\1{5,}/.test(local)) return false;
+        if (/^(?:01234567|12345678|23456789|34567890|98765432|87654321|76543210|0123456789|1234567890)/.test(local)) return false;
+        return true;
+    }
+
     const apiKey = "pl_live_156c5985bf6dbfa6929007420af9a9792d72d11ad239533663d0255a6a7ecd96";
     window.PROVOU_LEVOU_API_KEY = apiKey;
 
@@ -481,7 +492,7 @@
 
         function checkFields() {
             const nums = phoneInput.value.replace(/\D/g, '');
-            const phoneOk = (nums.length === 10 || nums.length === 11) && /^[1-9][1-9]/.test(nums) && (nums.length === 10 || nums[2] === '9');
+            const phoneOk = isValidBRPhone(nums);
             document.getElementById('q-phone-error').style.display = (phoneInput.value.length > 0 && !phoneOk) ? 'block' : 'none';
             phoneInput.style.borderColor = (phoneInput.value.length > 0 && !phoneOk) ? '#ef4444' : 'var(--q-border)';
             genBtn.disabled = !(userPhoto && phoneOk && document.getElementById('q-accept-terms').checked);
